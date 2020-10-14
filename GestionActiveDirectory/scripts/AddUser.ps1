@@ -45,9 +45,11 @@ ForEach ($user in $users){
     ElseIf($user.description -eq "utilisateur"){
         $userOUpath = "ou=Utilisateur,$OUpath"
     }
-
+    
+    #Ajout de l'utilisateur
     New-ADUser -Name "$prenom $nom" -GivenName $prenom -Surname $nom -EmailAddress $mail -Description $description -UserPrincipalName $username -path $userOUpath -AccountPassword $securePassword -ChangePasswordAtLogon $true -OfficePhone $telephone -Enabled $true
     $count++
 }
 
+# Confirmation
 echo " -> $count nouveaux utilisateurs `r`n"
