@@ -12,7 +12,7 @@ $securePassword = ConvertTo-SecureString "TESTpassw0rd" -AsPlainText -Force
 
 # Chemin vers le fichier CSV
 $currentPath = $PSScriptRoot
-$filepath = "$currentPath\ressources\userLDAP.csv"
+$filepath = "$currentPath\..\ressources\userLDAP.csv"
 
 # Variable contenant le fichier CSV
 "Récupération du fichier CSV à $filepath"
