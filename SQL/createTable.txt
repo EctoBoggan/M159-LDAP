@@ -1,0 +1,15 @@
+DROP TABLE IF EXISTS tb_role;
+DROP TABLE IF EXISTS tb_user;
+
+CREATE TABLE tb_role(
+	pk_role  INT PRIMARY KEY AUTO_INCREMENT,
+	nom_role VARCHAR(25) NOT NULL	
+);
+
+CREATE TABLE tb_user(
+	pk_user INT PRIMARY KEY AUTO_INCREMENT,
+	fk_role INT NOT NULL,
+	nom_user VARCHAR(25) NOT NULL,
+	pre_user VARCHAR(25) NOT NULL
+	
+);
