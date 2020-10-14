@@ -1,2 +1,8 @@
 # M159-LDAP
-Projet ayant pour but de peupler l'active directory d'un serveur windows, de récupérer ces informations depuis un formulaire PHP et de les insérer dans une base de donnée
+Projet ayant pour but de :
+* Créer un serveur Windows 2016
+* Ajouter le service Active Directory
+* Peupler l'active directory
+* Récupérer les information des utilisateurs depuis un formulaire PHP
+* Insérer ces informations dans une base de donnée
+* Rédiger un rapport de travail
