@@ -46,7 +46,7 @@ ForEach ($user in $users){
         $userOUpath = "ou=Utilisateur,$OUpath"
     }
     
-    #Ajout de l'utilisateur
+    # Ajout de l'utilisateur
     New-ADUser -Name "$prenom $nom" -GivenName $prenom -Surname $nom -EmailAddress $mail -Description $description -UserPrincipalName $username -path $userOUpath -AccountPassword $securePassword -ChangePasswordAtLogon $true -OfficePhone $telephone -Enabled $true
     $count++
 }
