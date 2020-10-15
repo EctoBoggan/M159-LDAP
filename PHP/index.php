@@ -28,19 +28,35 @@ if (isset($_REQUEST['btn'])) {
             //Parfois choisir la version du protocol
             //ldap_set_option($ldap_con, LDAP_OPT_PROTOCOL_VERSION, 3);
 
+
             //Connection
             if (ldap_bind($ldap_con, $ldap_dn, $ldap_password)) {
                 echo "Connection réussie, importation des utilisateurs .  .  . <br>";
 
-                $filter = "(cn=*)";
-                $resultat = ldap_search($ldap_con, "ou=M159,dc=M159LDAP,dc=LOCAL", $filter) or exit("Recherche échouée");
-                $entries = ldap_get_entries($ldap_con, $resultat);
+                $entries = getUsers($ldap_con);
+                /**
+                 * Recherche d'info utilisateur :
+                 * entries = la liste d'utilisateurs
+                 * chaque utilisateurs dispose d'arrays portant le nom de l'information qu'elles contiennent
+                 * chaque info de l'array est à la position 0
+                 * exemple : $entries[0][telephonenumber][0] (donne le numéro de téléphone du premier utilisateur de la liste)
+                 */
+                //Afficher tout les utilisateurs
+                //displayList($entries);
 
-                print "<pre>";
-                print_r($entries);
-                print "<pre>";
-                
-                echo "Utilisateurs importés.";
+                //Création et insertion de tout les utilisateurs (l'entrée 0 est vide, donc on l'évite)
+                $count = 0;
+                foreach ($entries as $user) {
+                    if ($count != 0) {
+                        $SQLuser = generateUser($user);
+
+                        displayList($SQLuser);
+                    }
+                    $count++;
+                }
+
+                //Confirmation
+                echo ($count -1) , " Utilisateurs importés.";
             } else {
                 echo "Echec de connection à l'ective directory";
             }
@@ -52,6 +68,77 @@ if (isset($_REQUEST['btn'])) {
             echo "Données supprimées";
             break;
     }
+}
+
+/**
+ * 
+ * Affiche une liste
+ * 
+ * @param array liste à afficher
+ */
+function displayList($liste)
+{
+    print "<pre>";
+    print_r($liste);
+    print "<pre>";
+}
+
+/**
+ * 
+ * Cherche tout les utilisateurs et les enregistre dans une array
+ * 
+ * @param connexion onnexion au serveur ldap
+ * @return array une liste d'utilisateurs
+ */
+function getUsers($connexion)
+{
+    //filtre (* pour tout les utilisateurs)
+    $filter = "(cn=*)";
+    //Recherche
+    $result = ldap_search($connexion, "ou=M159,dc=M159LDAP,dc=LOCAL", $filter) or exit("Recherche échouée");
+    //Récupération du résultat
+    return ldap_get_entries($connexion, $result);
+}
+
+/**
+ * 
+ * Génère un utilisateur prêt a être envoyer dans la base de donnée
+ * 
+ * @param user utilisateur a générer
+ * @return myuser utilisateur généré 
+ */
+function generateUser($user)
+{
+    //Attribution des valeurs
+    $myUser = array(
+        "nom" => $user['sn'][0],
+        "prenom" => $user['givenname'][0],
+        "role" => 0,
+        "username" => $user['userprincipalname'][0],
+        "mail" => $user['mail'][0],
+        "tel" => intval($user['telephonenumber'][0])
+    );
+
+    // Gestion clé étrangère
+    switch ($user['description'][0]) {
+        case "direction":
+            $myUser['role'] = 1;
+
+            break;
+        case "administration":
+            $myUser['role'] = 2;
+
+            break;
+        case "comptabilite":
+            $myUser['role'] = 3;
+
+            break;
+        case "utilisateur":
+            $myUser['role'] = 4;
+            break;
+    }
+
+    return $myUser;
 }
 ?>
 
