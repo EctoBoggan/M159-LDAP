@@ -29,12 +29,19 @@ if (isset($_REQUEST['btn'])) {
             //ldap_set_option($ldap_con, LDAP_OPT_PROTOCOL_VERSION, 3);
 
             //Connection
-            if(ldap_bind($ldap_con,$ldap_dn,$ldap_password)){
+            if (ldap_bind($ldap_con, $ldap_dn, $ldap_password)) {
                 echo "Connection réussie, importation des utilisateurs .  .  . <br>";
 
-                $filter = "(uid=newton)";
+                $filter = "(cn=*)";
+                $resultat = ldap_search($ldap_con, "ou=M159,dc=M159LDAP,dc=LOCAL", $filter) or exit("Recherche échouée");
+                $entries = ldap_get_entries($ldap_con, $resultat);
+
+                print "<pre>";
+                print_r($entries);
+                print "<pre>";
+                
                 echo "Utilisateurs importés.";
-            }else{
+            } else {
                 echo "Echec de connection à l'ective directory";
             }
             break;
