@@ -28,44 +28,49 @@ if (isset($_REQUEST['btn'])) {
             //Parfois choisir la version du protocol
             //ldap_set_option($ldap_con, LDAP_OPT_PROTOCOL_VERSION, 3);
 
+            echo "Connexion à active directory .  .  .<br>";
 
             //Connection
             if (ldap_bind($ldap_con, $ldap_dn, $ldap_password)) {
-                echo "Connection réussie, importation des utilisateurs .  .  . <br>";
+                echo "Connection réussie, importation des utilisateurs .  .  .<br>";
 
                 $entries = getUsers($ldap_con);
-                /**
-                 * Recherche d'info utilisateur :
-                 * entries = la liste d'utilisateurs
-                 * chaque utilisateurs dispose d'arrays portant le nom de l'information qu'elles contiennent
-                 * chaque info de l'array est à la position 0
-                 * exemple : $entries[0][telephonenumber][0] (donne le numéro de téléphone du premier utilisateur de la liste)
-                 */
+                echo (count($entries) -1) , " utilisateurs importés<br>";
+
                 //Afficher tout les utilisateurs
                 //displayList($entries);
+
+                $connexion = dbConnect();
 
                 //Création et insertion de tout les utilisateurs (l'entrée 0 est vide, donc on l'évite)
                 $count = 0;
                 foreach ($entries as $user) {
                     if ($count != 0) {
                         $SQLuser = generateUser($user);
+                        
+                        $query = "INSERT INTO tb_user VALUES(null," . $SQLuser['role'] . ",'" . $SQLuser['nom']  . "','" . $SQLuser['prenom']
+                        . "','" . $SQLuser['username'] . "','" . $SQLuser['mail'] . "'," . $SQLuser['tel'] . ");";
 
-                        displayList($SQLuser);
+                        if($connexion->query($query)===TRUE){
+                            //ça continue
+                        }else{
+                            echo "Erreur : " . $query . "<br>" . $connexion->error;
+                        }
                     }
                     $count++;
                 }
 
-                //Confirmation
-                echo ($count -1) , " Utilisateurs importés.";
+                $connexion->close();
+                
             } else {
-                echo "Echec de connection à l'ective directory";
+                echo "Echec de connection à l'ective directory<br>";
             }
             break;
             // Bouton de suppression
         case "Supprimer les données":
             echo "Suppression des données . . .<br>";
 
-            echo "Données supprimées";
+            echo "Données supprimées<br>";
             break;
     }
 }
@@ -87,6 +92,7 @@ function displayList($liste)
  * 
  * Cherche tout les utilisateurs et les enregistre dans une array
  * 
+ * 
  * @param connexion onnexion au serveur ldap
  * @return array une liste d'utilisateurs
  */
@@ -104,6 +110,12 @@ function getUsers($connexion)
  * 
  * Génère un utilisateur prêt a être envoyer dans la base de donnée
  * 
+ * Recherche d'info utilisateur :
+ * entries = la liste d'utilisateurs
+ * chaque utilisateurs dispose d'arrays portant le nom de l'information qu'elles contiennent
+ * chaque info de l'array est à la position 0
+ * exemple : $entries[0][telephonenumber][0] (donne le numéro de téléphone du premier utilisateur de la liste)
+ *                  
  * @param user utilisateur a générer
  * @return myuser utilisateur généré 
  */
@@ -139,6 +151,19 @@ function generateUser($user)
     }
 
     return $myUser;
+}
+
+function dbConnect(){
+
+    echo "Connexion à la base de donnée .  .  .<br>";
+    $user = 'root';
+    $pass = '';
+    $dbname = 'm159';
+
+    $db = new mysqli('localhost',$user,$pass,$dbname) or die("echec de connexion");
+    echo "connexion à la base de donnée réuissie<br>";
+
+    return $db;
 }
 ?>
 
