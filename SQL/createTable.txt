@@ -9,10 +9,10 @@ CREATE TABLE tb_role(
 );
 
 #Ajout des 4 roles dans tb_role
-INSERT INTO tb_role VALUES(null,'Direction');
-INSERT INTO tb_role VALUES(null,'Administration');
-INSERT INTO tb_role VALUES(null,'Comptabilité');
-INSERT INTO tb_role VALUES(null,'Utilisateur');
+INSERT INTO tb_role VALUES(null,'Direction'),
+(null,'Administration'),
+(null,'Comptabilité'),
+(null,'Utilisateur');
 
 #Création de la table user
 CREATE TABLE tb_user(
@@ -20,8 +20,8 @@ CREATE TABLE tb_user(
 	fk_role INT NOT NULL,
 	nom_user VARCHAR(25) NOT NULL,
 	pre_user VARCHAR(25) NOT NULL,
-	username_user VARCHAR(50) NOT NULL,
-	mail_user VARCHAR(50),
-	tel_user INT,
+	username_user VARCHAR(50) NOT NULL UNIQUE,
+	mail_user VARCHAR(50) UNIQUE,
+	tel_user BIGINT UNIQUE,
 	FOREIGN KEY (fk_role) REFERENCES tb_role(pk_role)	
 );
