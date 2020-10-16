@@ -1,0 +1,107 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP&display=swap');
+@import "bourbon@5.*";
+@import "neat@2.*";
+@import url('https://fonts.googleapis.com/css?family=Montserrat:700');
+@import url('https://fonts.googleapis.com/css?family=Sumana:400,700');
+
+p {
+    font-family: 'Noto Sans JP', sans-serif;
+}
+
+.success{
+    color: darkgreen;
+}
+
+.fail{
+    color: darkred;
+}
+
+.info{
+    color: dodgerblue;
+    font-style: italic;
+}
+
+.title{
+    text-align: center;
+}
+
+h1{
+    text-align: center;
+    font-family: 'Noto Sans JP', sans-serif;
+}
+
+h2{
+    font-family: 'Noto Sans JP', sans-serif;
+}
+
+header,
+footer{
+  padding: 18px;
+}
+
+header {
+    font-family: 'Noto Sans JP', sans-serif;
+    color: white;
+    background-color: mediumaquamarine;
+}
+
+footer {
+    font-family: 'Noto Sans JP', sans-serif;
+    color: white;
+    background-color: lightseagreen;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+  }
+
+.shiny-btn {
+    display: block;
+  margin : auto;
+  color: white;
+  font-weight: bold;
+  font-size: 1rem;
+  text-decoration: none;
+  text-transform: uppercase;
+  padding: 10px 10px;
+  background-color: #7681b9;
+  transition: transform 500ms cubic-bezier(0.68, -0.55, 0.265, 1.55), background-position 800ms cubic-bezier(0.68, -0.55, 0.265, 1.55), box-shadow 500ms linear;
+  background-image: url('data:image/svg+xml;utf8,<?xml version="1.0" encoding="utf-8"?><svg version="1.1" id="Livello_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"	 width="1296px" height="768px" viewBox="0 0 1296 768" enable-background="new 0 0 1296 768" xml:space="preserve"><g><polygon fill="#8694D1" points="766.6,1.2 -0.2,768 200.7,768 967.5,1.2 	"/></g><g><polygon fill="#8694D1" points="1094.8,1.2 328,768 528.9,768 1295.7,1.2 	"/></g></svg>');
+  background-size: contain;
+  background-position: -200px center;
+  background-repeat: no-repeat;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+}
+.shiny-btn:hover {
+  transform: scale(1.1);
+  background-position: -60px;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+}
+.shiny-btn:active {
+  transform: scale(1);
+  background-position: 500px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+}
+
+.container { 
+    height: 200px;
+    position: relative;
+    margin-left: 30px;
+    margin-right: 30px;
+  }
+  
+  .center {
+    display: inline-block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 60%;
+    margin: auto;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+  }
+  
