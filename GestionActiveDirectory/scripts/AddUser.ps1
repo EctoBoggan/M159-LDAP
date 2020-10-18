@@ -17,7 +17,7 @@ $filepath = "$currentPath\..\ressources\userLDAP.csv"
 # Variable contenant le fichier CSV
 "Récupération du fichier CSV à $filepath"
 $users = Import-Csv $filepath
-"Fichier chargé avec succès"
+" -> Fichier chargé avec succès"
 
 # Récupération de chaques utilisateurs
 "Ajout des utilisateurs . . ."
