@@ -61,6 +61,7 @@ if (isset($_REQUEST['btn'])) {
                 //info
                 echo "<p class='info'>insertion des nouveaux utilisateurs .  .  .<br></p>";
                 $count = 0;
+                $hasError = false;
                 foreach ($entries as $user) {
                     if ($count != 0) {
                         $SQLuser = generateUser($user);
@@ -79,13 +80,16 @@ if (isset($_REQUEST['btn'])) {
                         } else {
                             //Erreur
                             echo "<p class='fail'>Erreur : " . $query . "<br>" . $connexion->error . "</p>";
+                            $hasError = true;
                         }
                     }
                     $count++;
                 }
 
                 //info
-                echo "<p class='success'> → " . ($count - 1) . " nouveaux utilisateurs</p>";
+                if (!$hasError) {
+                    echo "<p class='success'> → " . ($count - 1) . " nouveaux utilisateurs</p>";
+                }
 
                 //Fermeture de la connexion
                 $connexion->close();
